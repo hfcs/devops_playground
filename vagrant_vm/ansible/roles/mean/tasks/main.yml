@@ -1,0 +1,23 @@
+---
+- name: Add Nodejs deb source
+  shell: curl -sL https://deb.nodesource.com/setup_6.x | bash -
+- name: Add MongoDB package key
+  shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+- name: Add MongoDB APT Repository
+  apt_repository:
+    repo: deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/{{ mongodb_version }} multiverse
+    state: present
+- name: Install APT packages
+  apt: name={{ item }} allow_unauthenticated=yes
+  with_items:
+      - build-essential
+      - nodejs
+      - mongodb-org
+  notify:
+    - restart mongod
+- name: Provision Consul config file for mongodb
+  copy:
+    src: etc/consul.d/mongodb.json
+    dest: /etc/consul.d/mongodb.json
+  notify:
+    - reload consul

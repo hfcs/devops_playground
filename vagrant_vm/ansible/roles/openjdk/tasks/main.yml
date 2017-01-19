@@ -1,0 +1,3 @@
+---
+- name: Install OpenJDK {{ jdk_version }}
+  apt: name=openjdk-{{ jdk_version }}-jdk allow_unauthenticated=yes

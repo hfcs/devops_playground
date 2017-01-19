@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  vars_files:
+  - version.yml
+  roles:
+    - common
+    - consul-server
+    - openjdk
+    - prometheus
+    - visualization-server
+    - logstash
+    - elasticsearch
+    

@@ -1,0 +1,53 @@
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+# put all your rpms here for testing with vagrant
+#
+# Topology
+#
+# 192.168.123.11 app1
+#
+# port mapped to localhost
+# TBD
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "bento/ubuntu-16.04"
+
+  # Monitor/logging/service disovery can go here
+  config.vm.define "master" do |master|
+    master.vm.hostname = "master"
+    master.vm.provider "virtualbox" do |v|
+      v.memory = 1500
+    end
+    master.vm.network "private_network", ip: "192.168.123.10"
+
+    # Grafana
+    master.vm.network "forwarded_port", guest: 3000, host: 3000
+
+    # Kibana
+    master.vm.network "forwarded_port", guest: 5601, host: 5601
+
+    # Consul
+    master.vm.network "forwarded_port", guest: 8500, host:8500
+
+    master.vm.provision "ansible" do |ansible|
+      #ansible.verbose = "-vvv"
+      ansible.playbook = "ansible/master.yml"
+    end
+
+    #master.vm.provision "shell", inline: "sudo cp -r /vagrant/layout/master/etc /"
+    #master.vm.provision "shell", path: "script/master.sh"
+  end
+
+  config.vm.define "app1" do |app1|
+    app1.vm.hostname = "app1"
+
+    app1.vm.network "private_network", ip: "192.168.123.11"
+
+    app1.vm.provision "ansible" do |ansible|
+      #ansible.verbose = "-vvv"
+      ansible.playbook = "ansible/app1.yml"
+    end
+  end
+
+end

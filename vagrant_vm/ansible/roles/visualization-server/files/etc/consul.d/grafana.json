@@ -1,0 +1,11 @@
+{
+    "service": {
+        "name": "grafana",
+        "port": 3000
+    },
+    "check" : {
+      "name": "grafana",
+      "interval": "15s",
+      "http": "http://localhost:3000/api/metrics"
+    }
+}

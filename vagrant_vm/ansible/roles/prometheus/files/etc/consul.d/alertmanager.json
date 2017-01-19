@@ -1,0 +1,11 @@
+{
+    "service": {
+        "name": "alertmanager",
+        "port": 9093
+    },
+    "check" : {
+      "name": "prometheus",
+      "interval": "15s",
+      "http": "http://alertmanager:9093"
+    }
+}

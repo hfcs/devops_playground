@@ -1,0 +1,11 @@
+---
+- name: Install redis packages
+  apt: name=redis-server allow_unauthenticated=yes
+  notify:
+    - restart redis-server
+- name: Provision Consul config file for redis
+  copy:
+    src: etc/consul.d/redis.json
+    dest: /etc/consul.d/redis.json
+  notify:
+    - reload consul

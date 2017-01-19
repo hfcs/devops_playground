@@ -1,0 +1,12 @@
+---
+consul_version: 0.7.2
+prometheus_version: 1.4.1
+alertmanager_version: 0.5.1
+statsd_exporter_version: 0.3.0
+grafana_version: 4.1.1-1484211277
+elasticsearch_version: 5.1.2
+logstash_version: 5.1.2
+kibana_version: 5.1.2
+filebeat_version: 5.1.2
+mongodb_version: 3.4
+jdk_version: 8

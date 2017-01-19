@@ -1,0 +1,5 @@
+---
+- name: restart mongod
+  service: name=mongod enabled=yes state=restarted
+- name: reload consul
+  shell: /opt/consul/bin/consul reload

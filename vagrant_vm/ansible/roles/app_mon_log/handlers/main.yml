@@ -1,0 +1,7 @@
+---
+- name: restart filebeat
+  service: name=filebeat enabled=yes state=restarted
+- name: restart statsd_exporter
+  service: name=statsd_exporter enabled=yes state=restarted
+- name: reload consul
+  shell: /opt/consul/bin/consul reload

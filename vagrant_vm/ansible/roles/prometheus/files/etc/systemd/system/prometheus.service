@@ -1,0 +1,16 @@
+[Unit]
+Description=Prometheus
+After=consul-server.service
+Requires=consul-server.service
+
+[Service]
+EnvironmentFile=-/etc/default/prometheus
+TimeoutStartSec=0
+WorkingDirectory=/opt/prometheus
+ExecStart=/opt/prometheus/bin/prometheus $EXECSTART_ARG
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=prometheus
+
+[Install]
+WantedBy=multi-user.target

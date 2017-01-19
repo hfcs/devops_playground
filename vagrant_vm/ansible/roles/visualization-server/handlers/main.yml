@@ -1,0 +1,7 @@
+---
+- name: restart grafana
+  service: name=grafana-server enabled=yes state=restarted
+- name: restart kibana
+  service: name=kibana enabled=yes state=restarted
+- name: reload consul
+  shell: /opt/consul/bin/consul reload

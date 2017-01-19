@@ -1,0 +1,17 @@
+[Unit]
+Description=Consul client
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+# Fedora RPM guideline say /etc/sysconfig/consul though
+EnvironmentFile=-/etc/default/consul
+Environment=GOMAXPROCS=2
+Restart=on-failure
+ExecStart=/opt/consul/bin/consul agent $EXECSTART_ARG -config-dir=/etc/consul.d
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+SyslogIdentifier=consul-client
+
+[Install]
+WantedBy=multi-user.target

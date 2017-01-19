@@ -1,0 +1,11 @@
+{
+    "service": {
+        "name": "kibana",
+        "port": 5601
+    },
+    "check" : {
+      "name": "kibana",
+      "interval": "15s",
+      "http": "http://localhost:9600"
+    }
+}

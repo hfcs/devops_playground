@@ -1,0 +1,16 @@
+[Unit]
+Description=Smart mobility parking space lock
+After=elasticsearch.service
+Requires=elasticsearch.service
+
+[Service]
+TimeoutStartSec=0
+WorkingDirectory=/opt/elastalert
+# --no-daemon or PM2 will exit and got killed by systemd
+ExecStart=/usr/bin/elastalert --rule /etc/elastalert/smartparking.yaml
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=elastalert
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,61 @@
+---
+- name: Prepare prometheus directory
+  file: path=/opt/prometheus/bin state=directory
+- name: Install prometheus
+  unarchive:
+    extra_opts: ['--strip-components=1']
+    src: ../packages/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz
+    dest: /opt/prometheus/bin
+- name: Prepare prometheus config directory
+  file: path=/etc/prometheus/ state=directory
+- name: Provision prometheus config
+  copy:
+    src: etc/prometheus/
+    dest: /etc/prometheus/
+- name: Prepare prometheus config default directory
+  file: path=/etc/default/ state=directory
+- name: Provision prometheus config default
+  copy:
+    src: etc/default/prometheus
+    dest: /etc/default/prometheus
+- name: Provision systemd for prometheus
+  copy:
+    src: etc/systemd/system/prometheus.service
+    dest: /etc/systemd/system/prometheus.service
+  notify:
+    - restart prometheus
+- name: Prepare alertmanager directory
+  file: path=/opt/alertmanager/bin state=directory
+- name: Provision Consul config file for prometheus
+  copy:
+    src: etc/consul.d/prometheus.json
+    dest: /etc/consul.d/prometheus.json
+  notify:
+    - reload consul
+- name: Install alertmanager
+  unarchive:
+    extra_opts: ['--strip-components=1']
+    src: ../packages/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz
+    dest: /opt/alertmanager/bin
+- name: Prepare alertmanager config directory
+  file: path=/etc/alertmanager/ state=directory
+- name: Provision alertmanager config
+  copy:
+    src: etc/alertmanager/
+    dest: /etc/alertmanager/
+- name: Provision alertmanager config default
+  copy:
+    src: etc/default/alertmanager
+    dest: /etc/default/alertmanager
+- name: Provision systemd for alertmanager
+  copy:
+    src: etc/systemd/system/alertmanager.service
+    dest: /etc/systemd/system/alertmanager.service
+  notify:
+    - restart alertmanager
+- name: Provision Consul config file for alertmanager
+  copy:
+    src: etc/consul.d/alertmanager.json
+    dest: /etc/consul.d/alertmanager.json
+  notify:
+    - reload consul

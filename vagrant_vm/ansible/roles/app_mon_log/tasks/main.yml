@@ -1,0 +1,43 @@
+---
+- name: Install filebeat packages
+  apt: deb=/vagrant/packages/filebeat-{{ filebeat_version }}-amd64.deb
+- name: Prepare filebeat config directory
+  file: path=/etc/filebeat/ state=directory
+- name: Provision filebeat config
+  copy:
+    src: etc/filebeat/filebeat.yml
+    dest: /etc/filebeat/filebeat.yml
+  notify:
+    - restart filebeat
+- name: Provision Consul config file for filebeat
+  copy:
+    src: etc/consul.d/filebeat.json
+    dest: /etc/consul.d/filebeat.json
+  notify:
+    - reload consul
+- name: Prepare statsd_exporter directory
+  file: path=/opt/statsd_exporter/bin state=directory
+- name: Install statsd_exporter
+  unarchive:
+    extra_opts: ['--strip-components=1']
+    src: ../packages/statsd_exporter-{{ statsd_exporter_version }}.linux-amd64.tar.gz
+    dest: /opt/statsd_exporter/bin
+- name: Prepare statsd_exporter config default directory
+  file: path=/etc/default/ state=directory
+- name: Provision statsd_exporter config default
+  copy:
+    src: etc/default/statsd_exporter
+    dest: /etc/default/statsd_exporter
+- name: Provision systemd for statsd_exporter
+  copy:
+    src: etc/systemd/system/statsd_exporter.service
+    dest: /etc/systemd/system/statsd_exporter.service
+  notify:
+  notify:
+    - restart statsd_exporter
+- name: Provision Consul config file for statsd_exporter
+  copy:
+    src: etc/consul.d/statsd_exporter.json
+    dest: /etc/consul.d/statsd_exporter.json
+  notify:
+    - reload consul

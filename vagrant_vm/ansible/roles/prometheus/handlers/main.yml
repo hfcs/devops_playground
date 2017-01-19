@@ -1,0 +1,7 @@
+---
+- name: restart alertmanager
+  service: name=alertmanager enabled=yes state=restarted
+- name: restart prometheus
+  service: name=prometheus enabled=yes state=restarted
+- name: reload consul
+  shell: /opt/consul/bin/consul reload

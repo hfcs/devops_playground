@@ -1,0 +1,16 @@
+[Unit]
+Description=Alertmanager
+After=prometheus.service
+Requires=prometheus.service
+
+[Service]
+EnvironmentFile=-/etc/default/alertmanager
+TimeoutStartSec=0
+WorkingDirectory=/opt/prometheus
+ExecStart=/opt/alertmanager/bin/alertmanager $EXECSTART_ARG
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=alertmanager
+
+[Install]
+WantedBy=multi-user.target

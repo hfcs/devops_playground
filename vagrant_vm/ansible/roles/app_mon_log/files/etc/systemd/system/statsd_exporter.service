@@ -1,0 +1,15 @@
+[Unit]
+Description=statsd_exporter for Prometheus
+
+[Service]
+EnvironmentFile=-/etc/default/statsd_exporter
+TimeoutStartSec=0
+ExecStart=/opt/statsd_exporter/bin/statsd_exporter $EXECSTART_ARG
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=statsd_exporter
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

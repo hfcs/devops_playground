@@ -1,0 +1,6 @@
+---
+- name: restart redis-server
+  service: name=redis-server enabled=yes state=restarted
+- name: reload consul
+  shell: /opt/consul/bin/consul reload
+  

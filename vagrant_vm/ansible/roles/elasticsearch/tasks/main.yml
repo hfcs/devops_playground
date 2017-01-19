@@ -1,0 +1,17 @@
+---
+- name: Install elasticsearch packages
+  apt: deb=/vagrant/packages/elasticsearch-{{ elasticsearch_version }}.deb
+- name: Prepare elasticsearch config directory
+  file: path=/etc/elasticsearch/ state=directory
+- name: Provision elasticsearch config
+  copy:
+    src: etc/elasticsearch/jvm.options
+    dest: /etc/elasticsearch/jvm.options
+  notify:
+    - restart elasticsearch
+- name: Provision Consul config file for elasticsearch
+  copy:
+    src: etc/consul.d/elasticsearch.json
+    dest: /etc/consul.d/elasticsearch.json
+  notify:
+    - reload consul

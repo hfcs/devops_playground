@@ -1,0 +1,6 @@
+{
+    "service": {
+        "name": "filebeat",
+        "port": 3003
+    }
+}

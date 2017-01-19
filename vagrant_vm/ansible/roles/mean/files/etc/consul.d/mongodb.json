@@ -1,0 +1,11 @@
+{
+    "service": {
+        "name": "mongodb",
+        "port": 27017
+    },
+    "check" : {
+      "name": "mongodb",
+      "interval": "15s",
+      "script": "mongo localhost:27017/test --quiet --eval 'db.stats().ok'"
+    }
+}

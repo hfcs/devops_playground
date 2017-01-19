@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  vars_files:
+  - version.yml
+  roles:
+    - common
+    - consul-client
+    - mean
+    - app_mon_log
+    - redis

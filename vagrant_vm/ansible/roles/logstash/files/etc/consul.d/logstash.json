@@ -1,0 +1,11 @@
+{
+    "service": {
+        "name": "logstash",
+        "port": 9600
+    },
+    "check" : {
+      "name": "logstash",
+      "interval": "15s",
+      "http": "http://localhost:9600"
+    }
+}

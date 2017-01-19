@@ -1,0 +1,5 @@
+---
+- name: Install APT packages for common
+  apt: name={{ item }} allow_unauthenticated=yes
+  with_items:
+    - unzip

@@ -1,0 +1,25 @@
+---
+- name: Prepare consul dir
+  file: path=/opt/consul/bin state=directory
+- name: Install consul
+  unarchive:
+    src: ../packages/consul_{{ consul_version }}_linux_amd64.zip
+    dest: /opt/consul/bin
+- name: Prepare Consul config files directory
+  file: path=/etc/consul.d/ state=directory
+- name: Provision Consul config files
+  copy:
+    src: etc/consul.d/consul-client.json
+    dest: /etc/consul.d/consul-client.json
+- name: Provision systemd for Consul
+  copy:
+    src: etc/systemd/system/consul-client.service
+    dest: /etc/systemd/system/consul-client.service
+  notify:
+    -  restart consul
+- name: Prepare dnsmasq config directory
+  file: path=/etc/NetworkManager/dnsmasq.d/ state=directory
+- name: Provision dnsmasq for Consul namespace
+  copy:
+    src: etc/NetworkManager/dnsmasq.d/10-consul
+    dest: /etc/NetworkManager/dnsmasq.d/10-consul

@@ -1,0 +1,17 @@
+---
+- name: Install logstash packages
+  apt: deb=/vagrant/packages/logstash-{{ logstash_version }}.deb
+- name: Prepare logstash config directory
+  file: path=/etc/logstash/ state=directory
+- name: Provision logstash config
+  copy:
+    src: etc/logstash/
+    dest: /etc/logstash/
+  notify:
+    - restart logstash
+- name: Provision Consul config file for logstash
+  copy:
+    src: etc/consul.d/logstash.json
+    dest: /etc/consul.d/logstash.json
+  notify:
+    - reload consul

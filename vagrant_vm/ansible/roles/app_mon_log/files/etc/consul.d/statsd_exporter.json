@@ -1,0 +1,11 @@
+{
+    "service": {
+        "name": "statsd_exporter",
+        "port": 9102
+    },
+    "check" : {
+      "name": "statsd_exporter",
+      "interval": "15s",
+      "http": "http://localhost:9102/metrics"
+    }
+}

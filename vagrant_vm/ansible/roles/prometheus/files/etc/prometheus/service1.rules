@@ -1,0 +1,8 @@
+#Alert Sample, alert system reset
+ALERT service1_error
+IF rate(service1_error_counter[20s]) == 0
+FOR 5s
+LABELS {severity="page"}
+ANNOTATIONS {
+   DESCRIPTION="Sevice1 error",
+   SUMMARY="Service1 error"}

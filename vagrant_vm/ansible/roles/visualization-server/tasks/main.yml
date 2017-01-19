@@ -1,0 +1,33 @@
+---
+- name: Install grafana packages
+  apt: deb=/vagrant/packages/grafana_{{ grafana_version }}_amd64.deb
+- name: Prepare grafana config directory
+  file: path=/etc/grafana/ state=directory
+- name: Provision grafana config
+  copy:
+    src: etc/grafana/
+    dest: /etc/grafana/
+  notify:
+    - restart grafana
+- name: Provision Consul config file for grafana
+  copy:
+    src: etc/consul.d/grafana.json
+    dest: /etc/consul.d/alertmanager.json
+  notify:
+    - reload consul
+- name: Install kibana packages
+  apt: deb=/vagrant/packages/kibana-{{ kibana_version }}-amd64.deb
+- name: Prepare kibana config directory
+  file: path=/etc/kibana/ state=directory
+- name: Provision kibana config
+  copy:
+    src: etc/kibana/
+    dest: /etc/kibana/
+  notify:
+    - restart kibana
+- name: Provision Consul config file for kibana
+  copy:
+    src: etc/consul.d/kibana.json
+    dest: /etc/consul.d/kibana.json
+  notify:
+    - reload consul
